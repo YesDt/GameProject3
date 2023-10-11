@@ -1,8 +1,8 @@
 
 #----------------------------- Global Properties ----------------------------#
 
-/outputDir:bin/$(Platform)
-/intermediateDir:obj/$(Platform)
+/outputDir:bin
+/intermediateDir:obj
 /platform:Windows
 /config:
 /profile:Reach
@@ -12,11 +12,6 @@
 
 
 #---------------------------------- Content ---------------------------------#
-
-#begin ../../../GameProject2/GameProject2/Content/Content.mgcb
-/importer:
-/processor:
-/build:../../../GameProject2/GameProject2/Content/Content.mgcb;Content.mgcb
 
 #begin blank.png
 /importer:TextureImporter

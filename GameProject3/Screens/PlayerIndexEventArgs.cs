@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameProject2.Screens
+namespace GameProject3.Screens
 {
     // Custom event argument which includes the index of the player who
     // triggered the event. This is used by the MenuEntry.Selected event.

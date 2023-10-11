@@ -153,7 +153,7 @@ namespace GameProject3.Screens
                 if (_noCoinsLeft)
                 {
                     MediaPlayer.Stop();
-                    //LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
+                    LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
                 }
 
                 //_enemyPosition = Vector2.Lerp(_enemyPosition, targetPosition, 0.05f);

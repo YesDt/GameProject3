@@ -7,10 +7,9 @@ using static System.TimeZoneInfo;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameProject2.StateManagement;
 using GameProject3.StateManagement;
 
-namespace GameProject2.Screens
+namespace GameProject3.Screens
 {
     // The loading screen coordinates transitions between the menu system and the
     // game itself. Normally one screen will transition off at the same time as
