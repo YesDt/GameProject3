@@ -36,6 +36,8 @@ namespace GameProject3
 
         private BoundingRectangle _bounds = new BoundingRectangle(new Vector2(200 - 32, 300 - 32), 48, 130);
 
+        private Vector2 _airVelocity;
+
         private Vector2 gravity;
 
         private double _animationTimer;
@@ -78,8 +80,9 @@ namespace GameProject3
         /// <param name="gameTime">The real time elapsed in the game</param>
         public void Update(GameTime gameTime)
         {
+            _airVelocity = new Vector2(0, -100);
             direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-            gravity = new Vector2(0, 200 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            gravity = new Vector2(0, 90 * (float)gameTime.ElapsedGameTime.TotalSeconds);
             priorKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
             if (_position.Y < 300)
@@ -132,9 +135,10 @@ namespace GameProject3
             if (currentKeyboardState.IsKeyDown(Keys.Space) && !(_offGround))
             {
                 //_offGround = true;
-                _position.Y -= 100;
+                _position += _airVelocity;
 
             }
+            if (_offGround) _position += gravity;
             if (_position.X < 0) _position.X = 0;
             if (_position.X > 1150) _position.X = 1150;
 
