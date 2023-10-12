@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GameProject3;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SharpDX.Direct3D11;
 
 namespace GameProject3
 {
@@ -36,7 +34,7 @@ namespace GameProject3
             minNumParticles = 20;
             maxNumParticles = 25;
 
-            blendState = Microsoft.Xna.Framework.Graphics.BlendState.Additive;
+            blendState = BlendState.Additive;
             DrawOrder = AdditiveBlendDrawOrder;
         }
 

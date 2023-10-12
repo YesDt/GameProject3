@@ -50,7 +50,7 @@ namespace GameProject3.Screens
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public FireworkParticleSystem _fireworks;
+        FireworkParticleSystem _fireworks;
 
         public GameplayScreen()
         {
@@ -80,8 +80,6 @@ namespace GameProject3.Screens
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
-            _fireworks = new FireworkParticleSystem(this, 20);
-            Components.Add(_fireworks);
             _mc.LoadContent(_content);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _coins = new CoinSprite[]
@@ -104,6 +102,9 @@ namespace GameProject3.Screens
             _backgroundMusic = _content.Load<Song>("Project2music");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
+            _fireworks = new FireworkParticleSystem(this, 5);
+            Components.Add(_fireworks);
+            //base.Initialize();
         }
 
 
@@ -146,9 +147,8 @@ namespace GameProject3.Screens
                     if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                     {
                         Position = coin.CoinPosition;
-;
+
                         _fireworks.placeFirework(Position);
-                        _fireworks.Draw(gameTime);
                         coin.Collected = true;
                         _coinPickup.Play();
                         _coinsLeft--;
@@ -167,10 +167,6 @@ namespace GameProject3.Screens
                     LoadingScreen.Load(ScreenManager, false, null, new MaintainenceScreen());
                 }
 
-                //_enemyPosition = Vector2.Lerp(_enemyPosition, targetPosition, 0.05f);
-
-                // This game isn't very fun! You could probably improve
-                // it by inserting something more interesting in this space :-)
             }
         }
 
@@ -246,7 +242,7 @@ namespace GameProject3.Screens
             spriteBatch.Begin(transformMatrix: transform);
 
 
-            spriteBatch.Draw(_level, new Vector2(0, 0), null, Color.White, 0f, new Vector2(0, 0), 1.5f, SpriteEffects.None, 1f);
+            spriteBatch.Draw(_level, new Vector2(0, 0), null, Color.White, 0f, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0f);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, spriteBatch);
