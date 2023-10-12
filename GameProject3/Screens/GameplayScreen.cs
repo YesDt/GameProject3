@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
@@ -21,7 +20,7 @@ using SharpDX.Direct3D9;
 namespace GameProject3.Screens
 {
     // This screen implements the actual game logic.
-    public class GameplayScreen : GameScreen
+    public class GameplayScreen : GameScreen, IParticleEmitter
     {
         private ContentManager _content;
         private SpriteFont _gameFont;
@@ -46,6 +45,12 @@ namespace GameProject3.Screens
 
         private float _pauseAlpha;
         private readonly InputAction _pauseAction;
+
+
+        public Vector2 Position { get; set; }
+        public Vector2 Velocity { get; set; }
+
+        public FireworkParticleSystem _fireworks;
 
         public GameplayScreen()
         {
@@ -75,7 +80,8 @@ namespace GameProject3.Screens
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
-
+            _fireworks = new FireworkParticleSystem(this, 20);
+            Components.Add(_fireworks);
             _mc.LoadContent(_content);
             _coinCounter = _content.Load<SpriteFont>("CoinsLeft");
             _coins = new CoinSprite[]
@@ -139,10 +145,15 @@ namespace GameProject3.Screens
                 {
                     if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                     {
+                        Position = coin.CoinPosition;
+;
+                        _fireworks.placeFirework(Position);
+                        _fireworks.Draw(gameTime);
                         coin.Collected = true;
                         _coinPickup.Play();
                         _coinsLeft--;
                         _mc.coinsCollected++;
+
                     }
 
                 }
@@ -235,13 +246,14 @@ namespace GameProject3.Screens
             spriteBatch.Begin(transformMatrix: transform);
 
 
-            spriteBatch.Draw(_level, new Vector2(0, 0), null, Color.White, 0f, new Vector2(0, 0), 1.5f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(_level, new Vector2(0, 0), null, Color.White, 0f, new Vector2(0, 0), 1.5f, SpriteEffects.None, 1f);
             foreach (var coin in _coins)
             {
                 coin.Draw(gameTime, spriteBatch);
 
 
             }
+            
 
             _mc.Draw(gameTime, spriteBatch);
 

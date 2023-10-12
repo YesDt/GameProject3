@@ -14,7 +14,7 @@ namespace GameProject3.StateManagement
     /// with other layers to create complex menus or game
     /// experiences
     /// </summary>
-    public abstract class GameScreen
+    public abstract class GameScreen : Game
     {
         /// <summary>
         /// Indicates if this screen is a popup

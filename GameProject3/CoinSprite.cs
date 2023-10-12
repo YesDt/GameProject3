@@ -23,6 +23,8 @@ namespace GameProject3
 
         private BoundingCircle bounds;
 
+        public Vector2 CoinPosition => position;
+
         public bool Collected { get; set; } = false;
 
         /// <summary>

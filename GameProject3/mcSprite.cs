@@ -36,9 +36,11 @@ namespace GameProject3
 
         private BoundingRectangle _bounds = new BoundingRectangle(new Vector2(200 - 32, 300 - 32), 48, 130);
 
-        private Vector2 _airVelocity;
+        private float _velocityY = 0;
 
-        private Vector2 gravity;
+        private float _gravity;
+
+        private float _jumpHeight;
 
         private double _animationTimer;
 
@@ -80,9 +82,11 @@ namespace GameProject3
         /// <param name="gameTime">The real time elapsed in the game</param>
         public void Update(GameTime gameTime)
         {
-            _airVelocity = new Vector2(0, -100);
+            _jumpHeight = 150;
+            _gravity = 10;
             direction = new Vector2(200 * (float)gameTime.ElapsedGameTime.TotalSeconds, 0);
-            gravity = new Vector2(0, 90 * (float)gameTime.ElapsedGameTime.TotalSeconds);
+            
+
             priorKeyboardState = currentKeyboardState;
             currentKeyboardState = Keyboard.GetState();
             if (_position.Y < 300)
@@ -124,21 +128,34 @@ namespace GameProject3
             {
                 action = Action.Idle;
             }
+            
 
             //Jump Function. May work on Later
             if (_offGround)
             {
                 action = Action.Jumping;
-                _position += gravity;
+                _velocityY += _gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _position.Y += _velocityY;
+                //_position.Y += gravity;
 
             }
-            if (currentKeyboardState.IsKeyDown(Keys.Space) && !(_offGround))
+            if (currentKeyboardState.IsKeyDown(Keys.Space) && !_offGround)
             {
                 //_offGround = true;
-                _position += _airVelocity;
+                 _velocityY -= _jumpHeight;
+                _animationFrame = 0;
+                _animationTimer = 0;
+                
 
             }
-            if (_offGround) _position += gravity;
+            _position.Y += _velocityY;
+
+            if (!_offGround)
+            {
+                _velocityY = 0;
+            }
+
+
             if (_position.X < 0) _position.X = 0;
             if (_position.X > 1150) _position.X = 1150;
 
@@ -155,16 +172,38 @@ namespace GameProject3
         {
 
             SpriteEffects spriteEffects = (_flipped) ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
-
-            _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
-
-            //Update animationFrame
-            if (_animationTimer > 0.2)
+            
+            if (_offGround)
             {
-                _animationFrame++;
-                if (_animationFrame > 3) _animationFrame = 0;
-                _animationTimer -= 0.2;
+                
+                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                if (_animationTimer > 0.1)
+                {
+                    _animationFrame++;
+
+                    if (_animationFrame > 3) _animationFrame = 3;
+                    _animationTimer -= 0.1;
+                }
+                
+                    
             }
+            //Update animationFrame
+            else
+            {
+                _animationTimer += gameTime.ElapsedGameTime.TotalSeconds;
+            
+                if (_animationTimer > 0.2)
+                {
+                    _animationFrame++;
+                    if (_animationFrame > 3)
+                    {
+                        _animationFrame = 0;
+
+                    }
+                    _animationTimer -= 0.2;
+                }
+             }
+            
             var source = new Rectangle(_animationFrame * 250, (int)action * 512, 268, 512);
             spriteBatch.Draw(_texture, _position, source, Color.White, 0f, new Vector2(80, 120), 0.5f, spriteEffects, 0);
 
