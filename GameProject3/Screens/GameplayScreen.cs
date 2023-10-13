@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using GameProject3.Screens;
 using GameProject3.StateManagement;
+//using SharpDX.Direct2D1;
 
 
 namespace GameProject3.Screens
@@ -21,8 +22,8 @@ namespace GameProject3.Screens
     // This screen implements the actual game logic.
     public class GameplayScreen : GameScreen, IParticleEmitter
     {
-        //private GraphicsDeviceManager _graphics;
-        //private SpriteBatch _spriteBatch;
+        private GraphicsDevice _graphics;
+        private SpriteBatch _spriteBatch;
 
         private ContentManager _content;
 
@@ -57,7 +58,7 @@ namespace GameProject3.Screens
 
         public GameplayScreen()
         {
-            //_graphics = new GraphicsDeviceManager(this);
+            
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
@@ -69,7 +70,9 @@ namespace GameProject3.Screens
         // Load graphics content for the game
         public override void Activate()
         {
-            //_spriteBatch = new SpriteBatch(GraphicsDevice);
+            _graphics = ScreenManager.Game.GraphicsDevice;
+            _spriteBatch = ScreenManager.SpriteBatch;
+            
 
 
             if (_content == null)
@@ -109,14 +112,17 @@ namespace GameProject3.Screens
             _backgroundMusic = _content.Load<Song>("Project2music");
             MediaPlayer.IsRepeating = true;
             MediaPlayer.Play(_backgroundMusic);
-            _fireworks = new FireworkParticleSystem(this, 5);
-            Components.Add(_fireworks);
+            
+            _fireworks = new FireworkParticleSystem(ScreenManager.Game, 5);
+            _fireworks.Initialize();
+            ScreenManager.Game.Components.Add(_fireworks);
             
         }
 
 
         public override void Deactivate()
         {
+            ScreenManager.Game.Components.Remove(_fireworks);
             base.Deactivate();
         }
 
@@ -251,8 +257,8 @@ namespace GameProject3.Screens
 
                 if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                 {
-                    //_fireworks.Initialize();
-                    //_fireworks.Draw(gameTime);
+                    
+                    
 
                 }
             }

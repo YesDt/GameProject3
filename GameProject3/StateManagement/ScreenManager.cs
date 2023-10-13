@@ -25,6 +25,9 @@ namespace GameProject3.StateManagement
 
         private bool _isInitialized;
 
+
+        public Game Game { get; private set; }
+
         /// <summary>
         /// A SpriteBatch shared by all GameScreens
         /// </summary>
@@ -50,6 +53,7 @@ namespace GameProject3.StateManagement
         public ScreenManager(Game game) : base(game)
         {
             _content = new ContentManager(game.Services, "Content");
+            Game = game;
         }
 
         /// <summary>

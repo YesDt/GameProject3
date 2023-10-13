@@ -12,6 +12,8 @@ namespace GameProject3
         private GraphicsDeviceManager _graphics;
         private readonly ScreenManager _screenManager;
 
+        public GraphicsDeviceManager Graphics => _graphics;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
