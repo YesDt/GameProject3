@@ -31,8 +31,8 @@ namespace GameProject3
         {
             textureFilename = "circle";
 
-            minNumParticles = 20;
-            maxNumParticles = 25;
+            minNumParticles = 2;
+            maxNumParticles = 6;
 
             blendState = BlendState.Additive;
             DrawOrder = AdditiveBlendDrawOrder;

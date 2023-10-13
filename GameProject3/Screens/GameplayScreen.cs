@@ -10,19 +10,22 @@ using System.Threading;
 using System.Threading.Tasks;
 using static System.TimeZoneInfo;
 using System.Reflection.Metadata;
-using SharpDX.Direct2D1;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using GameProject3.Screens;
 using GameProject3.StateManagement;
-using SharpDX.Direct3D9;
+
 
 namespace GameProject3.Screens
 {
     // This screen implements the actual game logic.
     public class GameplayScreen : GameScreen, IParticleEmitter
     {
+        //private GraphicsDeviceManager _graphics;
+        //private SpriteBatch _spriteBatch;
+
         private ContentManager _content;
+
         private SpriteFont _gameFont;
 
         private mcSprite _mc = new mcSprite();
@@ -54,6 +57,7 @@ namespace GameProject3.Screens
 
         public GameplayScreen()
         {
+            //_graphics = new GraphicsDeviceManager(this);
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
 
@@ -65,6 +69,9 @@ namespace GameProject3.Screens
         // Load graphics content for the game
         public override void Activate()
         {
+            //_spriteBatch = new SpriteBatch(GraphicsDevice);
+
+
             if (_content == null)
                 _content = new ContentManager(ScreenManager.Game.Services, "Content");
 
@@ -104,7 +111,7 @@ namespace GameProject3.Screens
             MediaPlayer.Play(_backgroundMusic);
             _fireworks = new FireworkParticleSystem(this, 5);
             Components.Add(_fireworks);
-            //base.Initialize();
+            
         }
 
 
@@ -132,20 +139,15 @@ namespace GameProject3.Screens
 
             if (IsActive)
             {
-                // Apply some random jitter to make the enemy move around.
-                //const float randomization = 10;
 
-                //_enemyPosition.X += (float)(_random.NextDouble() - 0.5) * randomization;
-                //_enemyPosition.Y += (float)(_random.NextDouble() - 0.5) * randomization;
-
-                // Apply a stabilizing force to stop the enemy moving off the screen.
-                var targetPosition = new Vector2(
-                    ScreenManager.GraphicsDevice.Viewport.Width / 2 - _gameFont.MeasureString("Insert Gameplay Here").X / 2,
-                    200);
+                //var targetPosition = new Vector2(
+                //    ScreenManager.GraphicsDevice.Viewport.Width / 2 - _gameFont.MeasureString("Insert Gameplay Here").X / 2,
+                //    200);
                 foreach (var coin in _coins)
                 {
                     if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                     {
+                        Velocity = coin.CoinPosition - Position;
                         Position = coin.CoinPosition;
 
                         _fireworks.placeFirework(Position);
@@ -247,7 +249,12 @@ namespace GameProject3.Screens
             {
                 coin.Draw(gameTime, spriteBatch);
 
+                if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
+                {
+                    //_fireworks.Initialize();
+                    //_fireworks.Draw(gameTime);
 
+                }
             }
             
 

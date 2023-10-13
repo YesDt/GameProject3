@@ -40,7 +40,7 @@ namespace GameProject3
         /// <summary>
         /// A SpriteBatch to share amongst the various particle systems
         /// </summary>
-        protected static SpriteBatch spriteBatch;
+        protected SpriteBatch spriteBatch;
 
         /// <summary>
         /// A ContentManager to share amongst the various particle systems
@@ -70,6 +70,9 @@ namespace GameProject3
         /// The origin when we're drawing textures 
         /// </summary>
         Vector2 origin;
+
+
+        public SpriteBatch SpriteBatch => spriteBatch;
 
         #endregion
 
