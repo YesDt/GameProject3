@@ -26,4 +26,7 @@ gameproject2titlescreen.png - created by Darius Tyson with fire Alpaca, released
 gameproject2loadingscreen.png - created by Darius Tyson with fire Alpaca, released under public domain
 
 
+Content/circle.png - created by Nathan Bean and released under public domain
+
+
 Project2music.mp3 - created by Darius Tyson with LMMS, released under public domain
