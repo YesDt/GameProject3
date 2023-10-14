@@ -74,6 +74,9 @@ namespace GameProject3
 
         public SpriteBatch SpriteBatch => spriteBatch;
 
+
+        public Matrix Transform = Matrix.Identity;
+
         #endregion
 
         #region protected fields

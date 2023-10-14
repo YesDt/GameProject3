@@ -22,6 +22,7 @@ namespace GameProject3.Screens
     // This screen implements the actual game logic.
     public class GameplayScreen : GameScreen, IParticleEmitter
     {
+        #region PrivateFields
         private GraphicsDevice _graphics;
         private SpriteBatch _spriteBatch;
 
@@ -43,18 +44,21 @@ namespace GameProject3.Screens
         private bool _noCoinsLeft { get; set; } = false;
 
 
-        //private Vector2 _enemyPosition = new Vector2(100, 100);
-
         private readonly Random _random = new Random();
 
         private float _pauseAlpha;
         private readonly InputAction _pauseAction;
 
+        #endregion
 
+
+
+        #region PublicFields
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
         FireworkParticleSystem _fireworks;
+#endregion
 
         public GameplayScreen()
         {
@@ -67,6 +71,8 @@ namespace GameProject3.Screens
                 new[] { Keys.Back, Keys.Escape }, true);
         }
 
+
+        #region PublicOverrides
         // Load graphics content for the game
         public override void Activate()
         {
@@ -156,7 +162,7 @@ namespace GameProject3.Screens
                         Velocity = coin.CoinPosition - Position;
                         Position = coin.CoinPosition;
 
-                        _fireworks.placeFirework(Position);
+                        
                         coin.Collected = true;
                         _coinPickup.Play();
                         _coinsLeft--;
@@ -207,30 +213,7 @@ namespace GameProject3.Screens
                 MediaPlayer.Resume();
 
                 _mc.Update(gameTime);
-                // Otherwise move the player position.
-                //var movement = Vector2.Zero;
-
-                //if (keyboardState.IsKeyDown(Keys.Left))
-                //    movement.X--;
-
-                //if (keyboardState.IsKeyDown(Keys.Right))
-                //    movement.X++;
-
-                //if (keyboardState.IsKeyDown(Keys.Up))
-                //    movement.Y--;
-
-                //if (keyboardState.IsKeyDown(Keys.Down))
-                //    movement.Y++;
-
-                //var thumbstick = gamePadState.ThumbSticks.Left;
-
-                //movement.X += thumbstick.X;
-                //movement.Y -= thumbstick.Y;
-
-                //if (movement.Length() > 1)
-                //    movement.Normalize();
-
-                //_playerPosition += movement * 8f;
+                
             }
         }
 
@@ -247,6 +230,7 @@ namespace GameProject3.Screens
             var spriteBatch = ScreenManager.SpriteBatch;
 
             transform = Matrix.CreateTranslation(offset, 0, 0);
+            _fireworks.Transform = transform;
             spriteBatch.Begin(transformMatrix: transform);
 
 
@@ -257,8 +241,8 @@ namespace GameProject3.Screens
 
                 if (!coin.Collected && coin.Bounds.CollidesWith(_mc.Bounds))
                 {
-                    
-                    
+
+                    _fireworks.placeFirework(coin.CoinPosition);
 
                 }
             }
@@ -267,7 +251,7 @@ namespace GameProject3.Screens
             _mc.Draw(gameTime, spriteBatch);
 
             spriteBatch.End();
-
+            
 
             spriteBatch.Begin();
 
@@ -282,5 +266,6 @@ namespace GameProject3.Screens
                 ScreenManager.FadeBackBufferToBlack(alpha);
             }
         }
+        #endregion
     }
 }
