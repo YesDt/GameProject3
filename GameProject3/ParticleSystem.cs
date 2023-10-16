@@ -238,7 +238,7 @@ namespace GameProject3
         {
             // tell sprite batch to begin, using the spriteBlendMode specified in
             // initializeConstants
-            spriteBatch.Begin(blendState: blendState);
+            spriteBatch.Begin(blendState: blendState, transformMatrix: Transform);
 
             foreach (Particle p in particles)
             {
